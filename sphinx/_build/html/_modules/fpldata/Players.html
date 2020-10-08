@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fpldata.Players &mdash; FPLDATA 0.0.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> FPLDATA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FPLDATA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>fpldata.Players</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for fpldata.Players</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<div class="viewcode-block" id="PlayerData"><a class="viewcode-back" href="../../players.html#fpldata.Players.PlayerData">[docs]</a><span class="k">class</span> <span class="nc">PlayerData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Module for getting players information</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://fantasy.premierleague.com/api/bootstrap-static/&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">teams</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;teams&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;events&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chance_of_playing_next_round&#39;</span><span class="p">,</span> <span class="s1">&#39;chance_of_playing_this_round&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;cost_change_event&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cost_change_event_fall&#39;</span><span class="p">,</span> <span class="s1">&#39;cost_change_start&#39;</span><span class="p">,</span> <span class="s1">&#39;cost_change_start_fall&#39;</span><span class="p">,</span> <span class="s1">&#39;dreamteam_count&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;element_type&#39;</span><span class="p">,</span> <span class="s1">&#39;ep_next&#39;</span><span class="p">,</span> <span class="s1">&#39;ep_this&#39;</span><span class="p">,</span> <span class="s1">&#39;event_points&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;in_dreamteam&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;news&#39;</span><span class="p">,</span> <span class="s1">&#39;news_added&#39;</span><span class="p">,</span> <span class="s1">&#39;now_cost&#39;</span><span class="p">,</span> <span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="s1">&#39;points_per_game&#39;</span><span class="p">,</span> <span class="s1">&#39;second_name&#39;</span><span class="p">,</span> <span class="s1">&#39;selected_by_percent&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;special&#39;</span><span class="p">,</span> <span class="s1">&#39;squad_number&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="s1">&#39;team_code&#39;</span><span class="p">,</span> <span class="s1">&#39;total_points&#39;</span><span class="p">,</span> <span class="s1">&#39;transfers_in&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;transfers_in_event&#39;</span><span class="p">,</span> <span class="s1">&#39;transfers_out&#39;</span><span class="p">,</span> <span class="s1">&#39;transfers_out_event&#39;</span><span class="p">,</span> <span class="s1">&#39;value_form&#39;</span><span class="p">,</span> <span class="s1">&#39;value_season&#39;</span><span class="p">,</span><span class="s1">&#39;web_name&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;minutes&#39;</span><span class="p">,</span> <span class="s1">&#39;goals_scored&#39;</span><span class="p">,</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;clean_sheets&#39;</span><span class="p">,</span> <span class="s1">&#39;goals_conceded&#39;</span><span class="p">,</span> <span class="s1">&#39;own_goals&#39;</span><span class="p">,</span> <span class="s1">&#39;penalties_saved&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;penalties_missed&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow_cards&#39;</span><span class="p">,</span> <span class="s1">&#39;red_cards&#39;</span><span class="p">,</span> <span class="s1">&#39;saves&#39;</span><span class="p">,</span> <span class="s1">&#39;bonus&#39;</span><span class="p">,</span> <span class="s1">&#39;bps&#39;</span><span class="p">,</span> <span class="s1">&#39;influence&#39;</span><span class="p">,</span> <span class="s1">&#39;creativity&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;threat&#39;</span><span class="p">,</span> <span class="s1">&#39;ict_index&#39;</span><span class="p">,</span> <span class="s1">&#39;influence_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;influence_rank_type&#39;</span><span class="p">,</span> <span class="s1">&#39;creativity_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;creativity_rank_type&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;threat_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;threat_rank_type&#39;</span><span class="p">,</span> <span class="s1">&#39;ict_index_rank&#39;</span><span class="p">,</span> <span class="s1">&#39;ict_index_rank_type&#39;</span><span class="p">]</span>    
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_info</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span> <span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_info</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">player_info</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        
+    
+<div class="viewcode-block" id="PlayerData.all_player_info"><a class="viewcode-back" href="../../players.html#fpldata.Players.PlayerData.all_player_info">[docs]</a>    <span class="k">def</span> <span class="nf">all_player_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gives information about all the players as a pandas DataFrame</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">player_info</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;element_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s1">&#39;GKP&#39;</span><span class="p">,</span><span class="s1">&#39;DEF&#39;</span><span class="p">,</span><span class="s1">&#39;MID&#39;</span><span class="p">,</span><span class="s1">&#39;FWD&#39;</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div>
+
+<div class="viewcode-block" id="PlayerData.search_player"><a class="viewcode-back" href="../../players.html#fpldata.Players.PlayerData.search_player">[docs]</a>    <span class="k">def</span> <span class="nf">search_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">player_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allow you to search Player by Name. Returns a dictionary with player id as key and name as value.</span>
+
+<span class="sd">        :param player_name: Name of the Player.</span>
+<span class="sd">        :type player_name: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">op</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">player_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span>  <span class="n">player_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;second_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">[</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;second_name&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span></div>
+
+<div class="viewcode-block" id="PlayerData.player_list"><a class="viewcode-back" href="../../players.html#fpldata.Players.PlayerData.player_list">[docs]</a>    <span class="k">def</span> <span class="nf">player_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary of all the players with player id as key and name as value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">player</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">player</span><span class="p">[</span><span class="s1">&#39;second_name&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span></div>
+    
+<div class="viewcode-block" id="PlayerData.player_detail"><a class="viewcode-back" href="../../players.html#fpldata.Players.PlayerData.player_detail">[docs]</a>    <span class="k">def</span> <span class="nf">player_detail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">player_id</span><span class="p">):</span>
+        
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictonary of player using the player_id</span>
+
+<span class="sd">        :param player_id: Player ID of the player (Use search_player() to find the ID).</span>
+<span class="sd">        :type player_id: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">PLAYER_URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://fantasy.premierleague.com/api/element-summary/</span><span class="si">{player_id}</span><span class="s2">/&quot;</span>
+        <span class="n">resp2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PLAYER_URL</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">resp2</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Harsh Gupta
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
